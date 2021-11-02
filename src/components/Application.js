@@ -3,17 +3,30 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "helpers/selectors";
 
 export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     // you may put the line below, but will have to remove/comment hardcoded appointments variable
-    appointments: {},
+    appointments: {
+      1: {
+        id: 1,
+        time: "12pm",
+        interview: null,
+      },
+    },
     interviewers: {},
   });
 
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
   const setDay = (day) => setState((prev) => ({ ...prev, day }));
 
   useEffect(() => {
@@ -35,7 +48,8 @@ export default function Application(props) {
   }, []);
 
   const appointments = getAppointmentsForDay(state, state.day);
-
+  const interviewers = getInterviewersForDay(state, state.day);
+  // console.log(interviewers);
   const schedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
 
@@ -45,6 +59,8 @@ export default function Application(props) {
         id={appointment.id}
         time={appointment.time}
         interview={interview}
+        interviewers={interviewers}
+        bookInterview={bookInterview}
       />
     );
   });
@@ -69,7 +85,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
-        <Appointment key="last" time="5pm" />
+        <Appointment key="last" time="5pm" bookInterview={bookInterview} />
       </section>
     </main>
   );
