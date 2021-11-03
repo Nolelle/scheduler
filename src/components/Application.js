@@ -40,7 +40,7 @@ export default function Application(props) {
         setState({
           ...state,
           appointments,
-        });
+        }).catch(() => {});
       });
   }
 
@@ -60,7 +60,7 @@ export default function Application(props) {
         setState({
           ...state,
           appointments,
-        });
+        }).catch(() => {});
       });
   }
 
