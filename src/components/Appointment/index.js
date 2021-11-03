@@ -8,18 +8,21 @@ import Form from "./Form";
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
+const SAVE = "SAVE";
 
 export default function Appointment(props) {
-  const { time, interview, interviewers, bookInterview } = props;
+  const { id, time, interview, interviewers, bookInterview } = props;
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
-  //TODO
   function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer,
     };
-    bookInterview(interviewers.id, interview);
+    transition(SAVE);
+    bookInterview(id, interview).then(() => {
+      transition(SHOW);
+    });
   }
 
   return (
@@ -33,7 +36,7 @@ export default function Appointment(props) {
         <Form
           interviewers={interviewers}
           onCancel={() => back()}
-          onSave={() => save()}
+          onSave={save}
         />
       )}
     </article>
