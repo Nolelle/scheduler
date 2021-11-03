@@ -26,8 +26,34 @@ export default function useApplicationData() {
       }));
     });
   }, []);
+
   const setDay = (day) => setState((prev) => ({ ...prev, day }));
 
+  function spotsRemaining(state, appointments) {
+    let copyOfState = { ...state };
+    let copyOfDaysStateArray = [...state.days];
+    let spots = 0;
+    let selectedDay = copyOfState.day;
+
+    let day = copyOfDaysStateArray.find((ele) => ele.name === selectedDay);
+
+    for (let id of day.appointments) {
+      let appointment = appointments[id];
+      if (!appointment.interview) {
+        spots++;
+      }
+    }
+    day = { ...day, spots };
+
+    let returnDaysArray = copyOfDaysStateArray.map((ele) => {
+      if (ele.name === selectedDay) {
+        return day;
+      } else {
+        return ele;
+      }
+    });
+    return returnDaysArray;
+  }
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -40,9 +66,11 @@ export default function useApplicationData() {
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then(() => {
+        const days = spotsRemaining(state, appointments);
         setState({
           ...state,
           appointments,
+          days,
         });
       });
   }
@@ -50,7 +78,7 @@ export default function useApplicationData() {
   function cancelInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
-      interview: { ...interview },
+      interview: null,
     };
     const appointments = {
       ...state.appointments,
@@ -59,14 +87,15 @@ export default function useApplicationData() {
     return axios
       .delete(`http://localhost:8001/api/appointments/${id}`)
       .then(() => {
+        const days = spotsRemaining(state, appointments);
+        console.log(appointments);
         setState({
           ...state,
           appointments,
+          days,
         });
       });
   }
 
-  function spotsRemaining(id) {}
-
-  return { state, setDay, bookInterview, cancelInterview, spotsRemaining };
+  return { state, setDay, bookInterview, cancelInterview };
 }
