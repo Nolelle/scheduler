@@ -66,5 +66,7 @@ export default function useApplicationData() {
       });
   }
 
-  return { state, setDay, bookInterview, cancelInterview };
+  function spotsRemaining(id) {}
+
+  return { state, setDay, bookInterview, cancelInterview, spotsRemaining };
 }
