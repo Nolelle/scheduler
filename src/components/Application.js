@@ -44,6 +44,26 @@ export default function Application(props) {
       });
   }
 
+  function cancelInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+
+    return axios
+      .delete(`http://localhost:8001/api/appointments/${id}`)
+      .then(() => {
+        setState({
+          ...state,
+          appointments,
+        });
+      });
+  }
+
   const setDay = (day) => setState((prev) => ({ ...prev, day }));
 
   useEffect(() => {
@@ -77,6 +97,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
@@ -101,7 +122,12 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
-        <Appointment key="last" time="5pm" bookInterview={bookInterview} />
+        <Appointment
+          key="last"
+          time="5pm"
+          bookInterview={bookInterview}
+          cancelInterview={cancelInterview}
+        />
       </section>
     </main>
   );
