@@ -29,7 +29,6 @@ export default function useVisualMode(initial) {
         return prevHistory;
       }
       const copyOfHistory = [...prevHistory];
-      // console.log(copyOfHistory);
       copyOfHistory.pop();
       setMode(copyOfHistory[copyOfHistory.length - 1]);
 
