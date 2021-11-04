@@ -15,7 +15,7 @@ export default function Form(props) {
     }
 
     setError("");
-    props.onSave(student, interviewer);
+    onSave(student, interviewer);
   }
   const reset = () => {
     setStudent("");
