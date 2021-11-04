@@ -88,7 +88,7 @@ export default function useApplicationData() {
       .delete(`http://localhost:8001/api/appointments/${id}`)
       .then(() => {
         const days = spotsRemaining(state, appointments);
-        console.log(appointments);
+
         setState({
           ...state,
           appointments,
