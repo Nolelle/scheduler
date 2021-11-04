@@ -28,6 +28,6 @@ npm run storybook
 
 !["Home Screen"](https://github.com/Nolelle/scheduler/blob/master/docs/Home.png?raw=true)
 
-#### Edit Form
+#### Edit/Add new Appointment Form
 
 !["Edit Form "](https://github.com/Nolelle/scheduler/blob/master/docs/Edit%20Form%20.png?raw=true)
