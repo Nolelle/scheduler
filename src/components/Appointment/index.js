@@ -26,6 +26,7 @@ export default function Appointment({
   bookInterview,
   cancelInterview,
 }) {
+  //Custom hook to maintain appointment state mode (EMPTY, SHOW, CREATE, SAVING, DELETING, CONFIRM, EDIT, ERROR_SAVE, ERROR_DELETE)
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
   function save(name, interviewer) {
@@ -42,6 +43,7 @@ export default function Appointment({
         transition(ERROR_SAVE, true);
       });
   }
+
   function editAppointment() {
     transition(EDIT);
   }

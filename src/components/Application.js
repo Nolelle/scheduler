@@ -10,6 +10,7 @@ import {
 import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
+  //Bring in functions for state management in useApplicationData() custom hook.
   const { state, setDay, bookInterview, cancelInterview } =
     useApplicationData();
 
